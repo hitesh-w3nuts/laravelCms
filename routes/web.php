@@ -20,3 +20,18 @@ Route::get('/', function () {
 Route::get('/hello', function () {
     return view('welcome');
 });
+
+Route::get('/post/{id}', function ($id) {
+    //return view('welcome');
+    return 'This is post no: '.$id;
+});
+
+Route::get('/post/{id}/{name}', function ($id, $name) {
+    //return view('welcome');
+    return 'This is post no: '.$id.' '.$name;
+});
+
+Route::get('/home/admin/posts', array('as' =>'admin.posts', function(){
+    $url = route('admin.posts');
+    return $url; 
+}));
