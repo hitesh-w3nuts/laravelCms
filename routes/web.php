@@ -17,7 +17,7 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/hello', function () {
+/*Route::get('/hello', function () {
     return view('welcome');
 });
 
@@ -34,4 +34,6 @@ Route::get('/post/{id}/{name}', function ($id, $name) {
 Route::get('/home/admin/posts', array('as' =>'admin.posts', function(){
     $url = route('admin.posts');
     return $url; 
-}));
+}));*/
+
+Route::resource('posts', 'PostController');
