@@ -11,10 +11,13 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index($id)
+    public function index()
     {
-        //
-        return "It's working number is:".$id;
+        $posts = array(
+            0 => 'THis is first post',
+            1 => 'THis is second post',
+        );  
+        return view('posts.posts', compact('posts'));
     }
 
     /**
@@ -48,7 +51,9 @@ class PostController extends Controller
     public function show($id)
     {
         //
-        return "It's show method";
+        // return view('posts.post')->with('id', $id);
+        $name = 'Heet';
+        return view('posts.post', compact('id','name'));
     }
 
     /**
