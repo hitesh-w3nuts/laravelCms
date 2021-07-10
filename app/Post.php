@@ -12,7 +12,7 @@ class Post extends Model
     protected $primaryKey = 'id';*/
 
     public $coustomPostTypes = array();
-
+    protected $fillable = ['name', 'content', 'type', 'categoryID'];
     public function category(){
         return $this->belongsTo('App\Categories', 'categoryID');
     }

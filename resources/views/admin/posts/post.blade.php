@@ -1,4 +1,4 @@
-@extends('layout.app')
+@extends('layout.admin.app')
 @section('content')
-<h1>Post {{$id}} {{$name}}</h1>
+<h1>Post</h1>
 @endsection

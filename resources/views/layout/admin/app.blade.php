@@ -13,8 +13,9 @@
   <link rel="stylesheet" href="{{ asset('css/admin/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
   <!-- Theme style -->
   <link rel="stylesheet" href="{{ asset('css/admin/dist/css/adminlte.min.css')}}">
+  @yield('page-style')
 </head>
-<body class="hold-transition dark-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
 
   <!-- Preloader -->
@@ -161,6 +162,7 @@
 <script src="{{ asset('js/bootstrap.bundle.min.js')}}"></script>
 <script src="{{ asset('js/jquery.overlayScrollbars.min.js')}}"></script>
 <script src="{{ asset('js/adminlte.js')}}"></script>
+@yield('page-script')
 <!-- <script src="{{ asset('js/demo.js')}}"></script>
 <script src="{{ asset('js/dashboard2.js')}}"></script> -->
 </body>

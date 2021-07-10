@@ -25,4 +25,49 @@ class Categories extends Model
         return $this->hasMany('App\Post', 'categoryID');
     }
 
+
+    public static function get_cat_with_child($postTypeID = 0){
+        $cates = array();
+        $getCats = Categories::where('post_type_id', $postTypeID)->where('parent_id', 0)->get();
+        if(count($getCats) > 0){
+            $i=0;
+            foreach ($getCats as $cat) {
+                $cates[$i] = array(
+                    'term_id' => $cat->id,
+                    'name' => $cat->name,
+                );
+
+                /*get child*/
+                $childCat = Categories::get_child_cat($cat->id);
+                if(!empty($childCat)){
+                    $cates[$i]['child'] = $childCat;
+                }
+                /*get child*/
+                $i++;
+            }
+        }
+        return $cates;
+    }
+
+
+    public static function get_child_cat($pID){
+        $cates = array();
+        $getCats = Categories::where('parent_id', $pID)->get();
+        if(count($getCats) > 0){
+            $i=0;
+            foreach ($getCats as $cat) {
+                $cates[$i] = array(
+                    'term_id' => $cat->id,
+                    'name' => $cat->name,
+                );
+
+                /*get child*/
+
+                /*get child*/
+
+                $i++;
+            }
+        }
+        return $cates;
+    }
 }

@@ -22,6 +22,7 @@ Route::get('/admin', 'Admin_controller@index');
 Route::get('/admin/{post_type}', 'Admin_controller@post_page');
 
 Route::get('/admin/add-new/{post_type}', 'Admin_controller@post_add_new');
+Route::get('/admin/edit/{post_type}/{id}', 'Admin_controller@post_edit');
 
 Route::get('/', 'PostController@index');
 Route::resource('posts', 'PostController');

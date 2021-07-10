@@ -26,6 +26,7 @@ class Register_post_type extends Model
         $data = Register_post_type::all();
         $types = array(
             array(
+                'post_type_id' => 0,
                 'post_type' => 'post',
                 'post_slug' => 'post',
                 'post_icon' => '',
@@ -36,7 +37,9 @@ class Register_post_type extends Model
             )
         );
         foreach($data as $type){
-            $types[] = unserialize($type->settings);
+            $typeData = unserialize($type->settings);
+            $typeData['post_type_id'] = $type->id;
+            $types[] = $typeData;
         }
         return $types;
     }

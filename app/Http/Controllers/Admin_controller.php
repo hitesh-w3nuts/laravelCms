@@ -18,7 +18,7 @@ class Admin_controller extends Controller
 
         $type = Register_post_type::get_all_custom_post_type();
         $current = 'post';
-        $posts = Post::where('type', $current)->get();
+        $posts = Post::where('type', $current)->orderBy('created_at', 'DESC')->get();
         $passData= array(
             'posts' => $posts,
             'type' => $type,
@@ -31,22 +31,55 @@ class Admin_controller extends Controller
         $current = $type;
         $types = Register_post_type::get_all_custom_post_type();
         
-        $posts = Post::where('type', $current)->get();
+        $posts = Post::where('type', $current)->orderBy('created_at', 'DESC')->get();
 
         $passData= array(
             'posts' => $posts,
             'type' => $types,
             'current' => $current,
         );
-        return view('admin.posts.posts', )->with('passData', $passData);
+        if(view()->exists('admin.posts.'.$current) && $current != 'post'){
+            return view('admin.posts.'.$current)->with('passData', $passData);
+        }else{
+            return view('admin.posts.posts')->with('passData', $passData);
+        }
     }
 
     public function post_add_new($type){
         $types = Register_post_type::get_all_custom_post_type();
+
+        $postTypeID = 0;
+        foreach ($types as $key => $value) {
+            if($value['post_slug'] == $type){
+                $postTypeID = $value['post_type_id'];
+            }
+        }
+        $cats = Categories::get_cat_with_child($postTypeID);
         $passData= array(
             'type' => $types,
             'current' => $type,
+            'cats' => $cats,
         );
+
+        return view('admin.posts.post_add', )->with('passData', $passData);
+    }
+
+    public function post_edit($type, $id){
+        $types = Register_post_type::get_all_custom_post_type();
+
+        $postTypeID = 0;
+        foreach ($types as $key => $value) {
+            if($value['post_slug'] == $type){
+                $postTypeID = $value['post_type_id'];
+            }
+        }
+        $cats = Categories::get_cat_with_child($postTypeID);
+        $passData= array(
+            'type' => $types,
+            'current' => $type,
+            'cats' => $cats,
+        );
+
         return view('admin.posts.post_add', )->with('passData', $passData);
     }
 
