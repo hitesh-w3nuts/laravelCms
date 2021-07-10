@@ -1,7 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-
+use App\Post;
+use App\Categories;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,30 +14,26 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
 
-/*Route::get('/hello', function () {
-    return view('welcome');
-});
 
-Route::get('/post/{id}', function ($id) {
-    //return view('welcome');
-    return 'This is post no: '.$id;
-});
 
-Route::get('/post/{id}/{name}', function ($id, $name) {
-    //return view('welcome');
-    return 'This is post no: '.$id.' '.$name;
-});
+Route::get('/admin', 'Admin_controller@index');
 
-Route::get('/home/admin/posts', array('as' =>'admin.posts', function(){
-    $url = route('admin.posts');
-    return $url; 
-}));*/
+Route::get('/admin/{post_type}', 'Admin_controller@post_page');
 
-// Route::resource('posts', 'PostController');
+Route::get('/admin/add-new/{post_type}', 'Admin_controller@post_add_new');
 
-Route::get('/posts', 'PostController@index');
-Route::get('/posts/{id}', 'PostController@show');
+Route::get('/', 'PostController@index');
+Route::resource('posts', 'PostController');
+if(!empty($customPostTypes)){
+	foreach ($customPostTypes as $key => $type) {
+		if($type['post_type'] == 'post'){
+			continue;
+		}
+		$controller = 'PostController';
+		if(isset($type['controller']) && !empty($type['controller'])){
+			$controller = $type['controller'];
+		}
+		Route::get($type['post_slug'].'/{slug}', $controller.'@index');
+	}
+}

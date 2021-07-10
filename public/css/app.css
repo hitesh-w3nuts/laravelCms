@@ -1,0 +1,4 @@
+header{width: 100%; display: flex;}
+header .navbar{background-color: #000 !important;}
+header .navbar ul li a{color: #fff !important;text-decoration: none;}
+.content{width: 80%; display: flex;}

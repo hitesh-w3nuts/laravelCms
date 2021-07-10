@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Post;
 
 class PostController extends Controller
 {
@@ -13,11 +14,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = array(
-            0 => 'THis is first post',
-            1 => 'THis is second post',
-        );  
-        return view('posts.posts', compact('posts'));
+        $posts = Post::all();
+        return view('admin.posts.posts', )->with('posts',$posts);
     }
 
     /**
@@ -90,3 +88,4 @@ class PostController extends Controller
         //
     }
 }
+    

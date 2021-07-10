@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class Posts extends Migration
+class RegisterPostType extends Migration
 {
     /**
      * Run the migrations.
@@ -13,13 +13,13 @@ class Posts extends Migration
      */
     public function up()
     {
-        Schema::create('posts', function (Blueprint $table) {
+         Schema::create('register_post_type', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->text('content');
-            $table->string('type');
-            $table->integer('categoryID')->default('0');
+            $table->string('post_type');
+            $table->string('slug');
+            $table->text('settings');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,7 +30,6 @@ class Posts extends Migration
      */
     public function down()
     {
-        //
-        Schema::dropIfExists('posts');
+        Schema::dropIfExists('registed_post_type');
     }
 }
