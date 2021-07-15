@@ -17,16 +17,39 @@
 	{{ session('failed') }}
 </div>
 @endif
-<form method="post" action="/posts">
+<?php 
+
+$title = $content = $catId = $id = '';
+$action = '/posts';
+$method = 'post';
+if(isset($passData['singlePost'])){
+	$id = $passData['singlePost'][0]->id;
+	$title = $passData['singlePost'][0]->name;
+	$content = $passData['singlePost'][0]->content;
+	$catId = $passData['singlePost'][0]->categoryID;
+	$action = '/posts/update';
+	$method = 'put';
+}
+?>
+
+
+<form method="post" action="{{$action}}">
 	<input type="hidden" name="type" value="{{$passData['current']}}">
+	<input type="hidden" name="id" value="{{$id}}">
+	@if(isset($passData['singlePost']))
+		{{ method_field('PUT') }}
+	@endif
 	<input type = "hidden" name = "_token" value = "<?php echo csrf_token(); ?>">
 	<div class="row">
 		<div class="col-md-9">
 			<div class="form-group">
-	            <input type="text" class="form-control" name="name" id="title" placeholder="Title">
+	            <input type="text" class="form-control" name="name" id="title" value="{{$title}}" placeholder="Title">
+	            @if ($errors->has('name'))
+                    <span class="text-danger">Please enter title</span>
+                @endif
           	</div>
           	<div class="form-group">
-	            <textarea class="form-control" name="content" rows="20" id="summernote"></textarea>
+	            <textarea class="form-control" name="content" rows="20" id="summernote">{{$content}}</textarea>
           	</div>
 		</div>
 		<div class="col-md-3">
@@ -43,18 +66,26 @@
 	              		@if(isset($passData['cats']) && !empty($passData['cats']))
 		              	<div class="text-left" style="padding: 10px 10px;">
 		              		@foreach($passData['cats'] as $cat)
+		              			{{$selected = ''}}
+		              			@if($cat['term_id'] == $catId)
+		              				<?php $selected = 'checked'; ?>
+	              				@endif
 				              	<div class="form-group">
 				              		<div class="form-check">
-						            	<input class="form-check-input" name="categoryID" value="{{$cat['term_id']}}" type="checkbox">
+						            	<input class="form-check-input" name="categoryID" value="{{$cat['term_id']}}" type="radio" {{$selected}}>
 				              			<label class="form-check-label">{{$cat['name']}}</label>
 				              		</div>
 					          	</div>
 					          	@if(isset($cat['child']) && !empty($cat['child']))
 					          	<div class="text-left" style="padding: 5px 10px;">
 					          		@foreach($cat['child'] as $cCat)
+						          		{{$selected = ''}}
+				              			@if($cCat['term_id'] == $catId)
+				              				<?php $selected = 'checked'; ?>
+			              				@endif
 					              	<div class="form-group">
 					              		<div class="form-check">
-							            	<input class="form-check-input" name="categoryID" value="{{$cCat['term_id']}}" type="checkbox">
+							            	<input class="form-check-input" name="categoryID" value="{{$cCat['term_id']}}" {{$selected}} type="radio">
 				              			<label class="form-check-label">{{$cCat['name']}}</label>
 					              		</div>
 						          	</div>

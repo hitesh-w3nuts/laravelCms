@@ -26,6 +26,7 @@ Route::get('/admin/edit/{post_type}/{id}', 'Admin_controller@post_edit');
 
 Route::get('/', 'PostController@index');
 Route::resource('posts', 'PostController');
+// Route::post('posts', 'PostController@update');
 if(!empty($customPostTypes)){
 	foreach ($customPostTypes as $key => $type) {
 		if($type['post_type'] == 'post'){

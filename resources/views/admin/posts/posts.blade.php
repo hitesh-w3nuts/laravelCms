@@ -12,6 +12,7 @@
 			<th>Name</th>
 			<th>Category</th>
 			<th>Date</th>
+			<th>Action</th>
 		</tr>
 	</thead>
 	<?php $i=0; ?>
@@ -27,6 +28,7 @@
 					@endif
 				</td>
 				<td>{{date('d-m-Y h:i:s', strtotime($post->created_at))}}</td>
+				<td><a href="/admin/edit/{{$passData['current']}}/{{$post->id}}"><i class="fa fa-edit"></i></a></td>
 			</tr>
 		@endforeach
 	@else

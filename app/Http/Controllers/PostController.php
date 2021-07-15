@@ -17,8 +17,8 @@ class PostController extends Controller
      */
     public function index()
     {
-        $posts = Post::all();
-        return view('admin.posts.posts', )->with('posts',$posts);
+        // $posts = Post::all();
+        // return view('admin.posts.posts', )->with('posts',$posts);
     }
 
     /**
@@ -67,7 +67,32 @@ class PostController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = $request->input();
+        /*echo "<pre>";
+        print_r($data);
+        echo "</pre>";exit();*/
+        $rules = [
+            'name' => 'required',
+            'type' => 'required',
+        ];
+        $validator = Validator::make($request->all(),$rules);
+        if ($validator->fails()) {
+            return redirect('admin/edit/'.$data['type'].'/'.$data['id'])
+            ->withInput()
+            ->withErrors($validator);
+        }else{
+            if(isset($data['categoryID']) && empty($data['categoryID'])){
+                $data['categoryID'] = 0;
+            }elseif(!isset($data['categoryID'])){
+                $data['categoryID'] = 0;
+            }
+            $post = Post::find($data['id'])->update([
+                'name' => $data['name'],
+                'content' => $data['content'],
+                'categoryID' => $data['categoryID'],
+            ]);
+            return redirect('admin/edit/'.$data['type'].'/'.$data['id'])->with('status',"Post updated successfully");
+        }
     }
 
     /**

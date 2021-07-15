@@ -66,7 +66,7 @@ class Admin_controller extends Controller
 
     public function post_edit($type, $id){
         $types = Register_post_type::get_all_custom_post_type();
-
+        $editPost = Post::where('id', $id)->where('type', $type)->get();
         $postTypeID = 0;
         foreach ($types as $key => $value) {
             if($value['post_slug'] == $type){
@@ -78,9 +78,12 @@ class Admin_controller extends Controller
             'type' => $types,
             'current' => $type,
             'cats' => $cats,
+            'singlePost' => $editPost,
         );
-
-        return view('admin.posts.post_add', )->with('passData', $passData);
+        if(count($editPost) <= 0){
+            return view('admin.posts.trashed')->with('passData', $passData);;
+        }
+        return view('admin.posts.post_add')->with('passData', $passData);
     }
 
 }
